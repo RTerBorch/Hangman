@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class Controller {
-    private final String wordFile = "src/Words.txt";
-    private final String highScoreFile = "src/highScore.txt";
+    private final String wordFile = "HangmanVG/src/Words.txt";
+    private final String highScoreFile = "HangmanVG/src/highScore.txt";
     private ArrayList<String> listOfWords;
     Scanner sc = new Scanner(System.in);
     private Player player;
@@ -24,6 +24,8 @@ public class Controller {
     }
 
     private Word hiddenWord;
+    boolean cheatMode = false;
+
 
     public Controller() throws IOException {
 
@@ -42,6 +44,11 @@ public class Controller {
             case "1" -> playGame();
             case "2" -> printHighScore(highScoreFile);
             case "3" -> printRules();
+            case "4" -> {
+                cheatMode=true ;
+                System.out.println("EasyMode activated for this round");
+                playGame();
+            }
             case "0" -> System.exit(0);
             default -> pView.wrongValue();
         }
@@ -58,11 +65,28 @@ public class Controller {
         char[] array2 = new char[array.length];
 
         Arrays.fill(array2, '_');
+
+        // cheat mode
+        Random random = new Random();
+        int cheatGuess = random.nextInt(0,array.length);
+
+
+
         System.out.println(array2);
         boolean run = true;
         while (run) {
+
+
             System.out.println();
-            String guess = sc.nextLine().toUpperCase();
+            String guess;
+
+            if(cheatMode) {
+               guess = String.valueOf(array[cheatGuess]);
+               cheatMode = false;
+               tries += 2;
+                System.out.println("2 tries will be added to this round due to easyMode.");
+            } else guess = sc.nextLine().toUpperCase();
+
             char guessLetter = guess.charAt(0);
 
             if (hiddenWord.getHiddenWord().contains(guess)) {
@@ -118,7 +142,7 @@ public class Controller {
 
         ArrayList<Player> playerList = new ArrayList<>();
 
-        for (int i = 0; i < scores.size(); i++) {
+        for (int i = 0; i < scores.size() && i < 10; i++) {
             String playerName = (scores.get(i).substring(0, scores.get(i).indexOf(' ')));
             int playerPoints = Integer.parseInt(scores.get(i).substring(scores.get(i).indexOf(' ') + 1));
             Player player = new Player(playerName, playerPoints);

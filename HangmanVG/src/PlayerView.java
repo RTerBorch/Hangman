@@ -10,6 +10,7 @@ public class PlayerView {
         System.out.println("1. Play game");
         System.out.println("2. High-score");
         System.out.println("3. Rules");
+        System.out.println("4. EasyMode");
         System.out.println("0. Exit");
     }
 
@@ -18,9 +19,11 @@ public class PlayerView {
     }
 
     public void printHighScores(ArrayList<Player> playerList){
+        int nr = 0;
+        System.out.println("Top 10 players");
         System.out.println("Amount of wrong guesses: ");
         for (Player e : playerList) {
-            System.out.println(e.getName() + "\t" + e.getScore());
+            System.out.println(++nr + "st:\t" + e.getName() + "\t" + e.getScore());
         }
         System.out.println();
     }

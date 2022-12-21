@@ -44,4 +44,15 @@ public class FileHandlerTest {
         fileHandler.writeHighscore(player, "Tests/testHighScorePrint.txt");
 
     }
+
+    @Test
+    public void testLogic(){
+        Random random = new Random();
+
+
+
+
+
+    }
+
 }
